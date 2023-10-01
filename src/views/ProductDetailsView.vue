@@ -10,7 +10,7 @@ const productStore = useProductStore(),
 <template>
     <div class="flex flex-col gap-20">
         <AppGoBackButton />
-        <div class="flex gap-10">
+        <div class="flex gap-20">
             <picture class="w-2/5">
                 <img :src="product.image" alt="" />
             </picture>

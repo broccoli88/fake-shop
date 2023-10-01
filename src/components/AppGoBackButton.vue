@@ -4,7 +4,7 @@
     <router-link
         :to="{ name: 'product-list' }"
         type="button"
-        class="btn whitespace-nowrap flex gap-4 items-center"
+        class="btn whitespace-nowrap flex gap-4 items-center w-min"
     >
         <Icon icon="cil:arrow-left" class="icon" />
         <p>Go To Homepage</p>

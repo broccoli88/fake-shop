@@ -16,7 +16,13 @@ const router = createRouter({
             path: '/product-details/:id',
             name: 'product-details',
             component: () => import('../views/ProductDetailsView.vue')
-        }
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: () => import('../views/RegisterView.vue')
+        },
+
     ]
 })
 
@@ -29,6 +35,7 @@ router.beforeEach(async (to, from, next) => {
         product.value = await useFetchProduct(to.params.id)
         console.log(product.value)
     }
+
     next()
 })
 
