@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ProductListView from '../views/ProductListView.vue'
 import { useProductStore } from '../stores/useProductStore.js'
+import { useUserStore } from '../stores/useUserStore.js'
 import { storeToRefs } from 'pinia'
 import { useFetchProduct } from '../api/useFetchProduct.js'
 
@@ -29,12 +30,15 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
 
     const productStore = useProductStore(),
-        { product } = storeToRefs(productStore)
+        { product } = storeToRefs(productStore),
+        userStore = useUserStore()
 
     if (to.name === 'product-details') {
         product.value = await useFetchProduct(to.params.id)
         console.log(product.value)
     }
+
+    await userStore.getCurrentlySignedInUser()
 
     next()
 })

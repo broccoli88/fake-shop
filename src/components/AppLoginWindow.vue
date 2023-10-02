@@ -5,30 +5,34 @@ import { useUserStore } from '../stores/useUserStore'
 import { storeToRefs } from 'pinia'
 
 const userStore = useUserStore(),
-    { loginInputData, loginState } = storeToRefs(userStore)
+    { loginInputData, loginState, vL, isUserSignedIn } = storeToRefs(userStore)
 </script>
 
 <template>
-    <form
+    <div
         class="login-window rounded-lg p-4 grid gap-2 shadow-xl absolute top-full right-0 bg-white"
-        @submit.prevent="userStore.submitLoginForm"
     >
-        <AppInput
-            v-model.trim="loginState.email"
-            :label="loginInputData.email.label"
-            :id="loginInputData.email.id"
-            :placeholder="loginInputData.email.placeholder"
-            type="email"
-        />
-        <AppInput
-            v-model.trim="loginState.password"
-            :label="loginInputData.password.label"
-            :id="loginInputData.password.id"
-            :placeholder="loginInputData.password.placeholder"
-            type="password"
-        />
-        <AppButton type="submit" class="mt-4">log in</AppButton>
-    </form>
+        <form @submit.prevent="userStore.submitLoginForm" v-if="!isUserSignedIn">
+            <AppInput
+                v-model.trim="loginState.email"
+                :label="loginInputData.email.label"
+                :id="loginInputData.email.id"
+                :placeholder="loginInputData.email.placeholder"
+                :v="vL.email"
+                type="email"
+            />
+            <AppInput
+                v-model.trim="loginState.password"
+                :label="loginInputData.password.label"
+                :id="loginInputData.password.id"
+                :placeholder="loginInputData.password.placeholder"
+                :v="vL.password"
+                type="password"
+            />
+            <AppButton type="submit" class="mt-4">log in</AppButton>
+        </form>
+        <AppButton @click="userStore.signUserOut()" v-else>Log Out</AppButton>
+    </div>
 </template>
 
 <style scoped>

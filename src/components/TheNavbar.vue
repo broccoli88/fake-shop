@@ -1,11 +1,16 @@
 <script setup>
-import { ref } from 'vue'
 import AppButton from './AppButton.vue'
 import AppLoginWindow from './AppLoginWindow.vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/useUserStore'
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
-const isLoginWindowOpen = ref(false)
+const userStore = useUserStore()
+const { signedInUser, isUserSignedIn, isLoginWindowOpen } = storeToRefs(userStore)
+
+const userState = computed(() => (isUserSignedIn.value ? signedInUser.value : 'log in'))
 
 const goToRegisterForm = () => router.push({ name: 'register' })
 const showLoginWindow = () => (isLoginWindowOpen.value = !isLoginWindowOpen.value)
@@ -14,7 +19,9 @@ const showLoginWindow = () => (isLoginWindowOpen.value = !isLoginWindowOpen.valu
 <template>
     <header class="py-4 shadow-md">
         <div class="flex justify-between max-w-screen-lg mx-auto items-center relative">
-            <router-link to="#" class="font-bold uppercase text-2xl">Awesome stuff</router-link>
+            <router-link :to="{ name: 'product-list' }" class="font-bold uppercase text-2xl"
+                >Awesome stuff</router-link
+            >
             <nav class="flex gap-4">
                 <div class="grid relative">
                     <AppButton class="px-4 aspect-auto">
@@ -26,7 +33,7 @@ const showLoginWindow = () => (isLoginWindowOpen.value = !isLoginWindowOpen.valu
                         0
                     </div>
                 </div>
-                <AppButton @click="showLoginWindow">login</AppButton>
+                <AppButton @click="showLoginWindow"> {{ userState }}</AppButton>
                 <AppButton
                     class="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
                     @click="goToRegisterForm"
