@@ -23,6 +23,15 @@ const productStore = useProductStore(),
                     <p>Category: {{ product.category }}</p>
                     <p>{{ product.description }}</p>
                 </div>
+                <div class="flex gap-6 text-lg mt-10">
+                    <span class="flex gap-4 items-center">
+                        <Icon icon="ph:star" />
+                        <p>{{ product.rating.rate }}</p>
+                    </span>
+                    <span>
+                        <p>In stock: {{ product.rating.count }}</p>
+                    </span>
+                </div>
             </section>
         </div>
     </div>
